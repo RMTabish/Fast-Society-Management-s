@@ -1,16 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using Google.Apis.Sheets.v4.Data;
+using System.IO;
+using System.Threading;
 using System.Net.Mail;
 using System.Net;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static FASTSocietyManagementSystem.AdminDashboard;
-using MySql.Data.MySqlClient;
-using System.Windows.Forms;
 
 namespace FASTSocietyManagementSystem
 {
-
     public partial class AdminDashboard : Form
 
     {
+        private UserCredential credential;
 
         private System.Windows.Forms.TextBox societyNameTextBox;
         private System.Windows.Forms.TextBox presidentIdTextBox;
@@ -25,8 +30,7 @@ namespace FASTSocietyManagementSystem
         public AdminDashboard()
         {
             InitializeComponent();
-            SetupListViewColumns();
-            FetchAndDisplaySocieties();
+
             societyNameTextBox = new System.Windows.Forms.TextBox();
             presidentIdTextBox = new System.Windows.Forms.TextBox();
             mentorIdTextBox = new System.Windows.Forms.TextBox();
@@ -34,7 +38,7 @@ namespace FASTSocietyManagementSystem
             descriptionTextBox = new System.Windows.Forms.TextBox();
             emailTextBox = new System.Windows.Forms.TextBox();
             phoneTextBox = new System.Windows.Forms.TextBox();
-            // status = new System.Windows.Forms.TextBox();
+            //status = new System.Windows.Forms.TextBox();
 
             // Add TextBox controls to the form's Controls collection
             Controls.Add(societyNameTextBox);
@@ -48,90 +52,9 @@ namespace FASTSocietyManagementSystem
             // Attach event handler to the "Register" button
             button1AddSociety.Click += Button1AddSociety_Click;
             button3.Click += new EventHandler(button3_Click);
+            refreshButton.Click += buttonRefresh_Click;
 
-        }
-        private void SetupListViewColumns()
-        {
-            listView1.View = View.Details;
-            listView1.Columns.Add("Society Name", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("President ID", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Mentor ID", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Department", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Description", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Email", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Phone", -2, HorizontalAlignment.Left);
-            listView1.Columns.Add("Status", -2, HorizontalAlignment.Left);
-        }
-        private void FetchAndDisplaySocieties()
-        {
-            string connectionString = "server=localhost;port=3306;user=root;password=12345678;database=society_management_system;";
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "SELECT name, president_id, mentor_id, DEPT, description, email, phone, stats FROM Societies";
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            listView1.Items.Clear(); // Clear existing items
-
-                            while (reader.Read())
-                            {
-                                ListViewItem newItem = new ListViewItem(reader["name"].ToString());
-                                newItem.SubItems.Add(reader["president_id"].ToString());
-                                newItem.SubItems.Add(reader["mentor_id"].ToString());
-                                newItem.SubItems.Add(reader["DEPT"].ToString());
-                                newItem.SubItems.Add(reader["description"].ToString());
-                                newItem.SubItems.Add(reader["email"].ToString());
-                                newItem.SubItems.Add(reader["phone"].ToString());
-                                newItem.SubItems.Add(reader["stats"].ToString()); // Assuming 'stats' column holds the 'Status'
-
-                                listView1.Items.Add(newItem);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred while fetching data from the database: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void SaveSocietyToDatabase(string societyName, int presidentId, int mentorId, string department, string description, string email, string phone, string status)
-        {
-            string connectionString = "server=localhost;port=3306;user=root;password=12345678;database=society_management_system;";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = @"INSERT INTO Societies (name, president_id, mentor_id, description, phone, email, DEPT, stats) 
-                 VALUES (@name, @presidentId, @mentorId, @description, @phone, @email, @department, @stats)";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        // Add parameters to prevent SQL injection
-                        cmd.Parameters.AddWithValue("@name", societyName);
-                        cmd.Parameters.AddWithValue("@presidentId", presidentId);
-                        cmd.Parameters.AddWithValue("@mentorId", mentorId);
-                        cmd.Parameters.AddWithValue("@description", description);
-                        cmd.Parameters.AddWithValue("@phone", phone);
-                        cmd.Parameters.AddWithValue("@email", email);
-                        cmd.Parameters.AddWithValue("@department", department);
-                        cmd.Parameters.AddWithValue("@stats", "Not Approved");
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred while saving to the database: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         // Event handler for the "Register" button click event
@@ -139,25 +62,64 @@ namespace FASTSocietyManagementSystem
         {
             // Get society details from text boxes
             string societyName = textBox1.Text;
-            int presidentId = int.Parse(textBox2.Text);
-            int mentorId = int.Parse(textBox3.Text);
+            string presidentId = textBox2.Text;
+            string mentorId = textBox3.Text;
             string department = textBox4.Text;
             string description = textBox5.Text;
             string email = textBox6.Text;
             string phone = textBox7.Text;
-            string status = "Not Approved";
+            string status = "Active";
 
 
-            SaveSocietyToDatabase(societyName, presidentId, mentorId, department, description, email, phone, status);
 
-            FetchAndDisplaySocieties();
+            // Save society details to a file 
+            SaveSocietyToFile(societyName, presidentId, mentorId, department, description, email, phone);
+
             // display a message box to confirm registration
             MessageBox.Show("Society registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ClearTextBoxes();
         }
 
         // Method to save society details to a file
+        private void SaveSocietyToFile(string societyName, string presidentId, string mentorId, string department, string description, string email, string phone)
+        {
+            // Specify the file path where you want to save the society details
+            string filePath = "society_details.txt";
 
+            // Prepare the data to be written to the file
+            string societyDetails = $"{societyName},{presidentId},{mentorId},{department},{description},{email},{phone}";
+
+            try
+            {
+                // Write the data to the file
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine(societyDetails);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that may occur during file writing
+                MessageBox.Show($"Error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            ListViewItem newItem = new ListViewItem(new string[]
+    {
+        societyName,
+        presidentId,
+        mentorId,
+        department,
+        description,
+        email,
+        phone,
+        status
+    });
+
+            // Add the new ListViewItem to the ListView
+            listView1.Items.Add(newItem);
+
+            // Clear the text boxes for the next entry
+            ClearTextBoxes();
+        }
 
         private void ClearTextBoxes()
         {
@@ -330,6 +292,92 @@ namespace FASTSocietyManagementSystem
         }
 
 
+        public async void AuthorizeGoogleSheetsAsync()
+        {
+            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            {
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    new[] { SheetsService.Scope.SpreadsheetsReadonly },
+                    "user",
+                    CancellationToken.None
+                );
+            }
+        }
+
+       
+        public void PopulateListViewWithGoogleSheetData()
+        {
+        
+            if (credential == null)
+            {
+                MessageBox.Show("Google Sheets authorization is required.", "Authorization Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+           
+            string spreadsheetId = "1b2zh6soiGBYfkK9PrCYKN3ZmASV5NqCOmSJDoQLAVeE";
+            string range = "Form Responses 1!A1:G"; // Adjust the range base
+
+            // Create Google Sheets service
+            var service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "Google Sheets API Example",
+            });
+
+            // Retrieve data from the spreadsheet
+            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+            try
+            {
+                ValueRange response = request.Execute();
+                IList<IList<object>> values = response.Values;
+
+                // Clear existing items in listView3
+                listView3.Items.Clear();
+
+                // Populate listView3 with the retrieved data
+                if (values != null && values.Count > 0)
+                {
+                    foreach (var row in values)
+                    {
+                        // Assuming each row contains data for one member
+                        ListViewItem item = new ListViewItem(row[0].ToString()); // Timestamp
+                        item.SubItems.Add(row[1].ToString()); // Name
+                        item.SubItems.Add(row[2].ToString()); // Email
+                        item.SubItems.Add(row[3].ToString()); // Department
+                        item.SubItems.Add(row[4].ToString()); // Role
+                        item.SubItems.Add(row[5].ToString()); // Message
+                        item.SubItems.Add(row[6].ToString()); // Approve
+                                                              // Add more sub-items as needed
+                        listView3.Items.Add(item);
+                    }
+
+                    MessageBox.Show("Data successfully fetched from Google Sheets and populated in listView3.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No data found in the specified range.", "Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error occurred while fetching data from Google Sheets: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            // Call a method to fetch data from Google Sheets and populate listView3
+            PopulateListViewWithGoogleSheetData();
+        }
+
+        private void AdminDashboard_Load(object sender, EventArgs e)
+        {
+            // Authorize Google Sheets API
+            AuthorizeGoogleSheetsAsync();
+        }
 
         private void AdminTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -358,32 +406,12 @@ namespace FASTSocietyManagementSystem
 
         private void textBox16_TextChanged(object sender, EventArgs e)
         {
-
+            // Text changed event logic for textBox16
         }
 
         private void textBox9_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            // Text changed event logic for textBox9
         }
     }
 }

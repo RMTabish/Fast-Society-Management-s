@@ -88,11 +88,12 @@
             columnHeader7 = new ColumnHeader();
             columnHeader8 = new ColumnHeader();
             tabPage2 = new TabPage();
+            refreshButton = new Button();
             button5 = new Button();
             textBox10 = new TextBox();
             button4 = new Button();
             listView3 = new ListView();
-            columnHeader1 = new ColumnHeader();
+            timeStamp1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
@@ -119,7 +120,7 @@
             AdminTabControl.Location = new Point(0, 0);
             AdminTabControl.Name = "AdminTabControl";
             AdminTabControl.SelectedIndex = 0;
-            AdminTabControl.Size = new Size(952, 509);
+            AdminTabControl.Size = new Size(1100, 509);
             AdminTabControl.TabIndex = 0;
             AdminTabControl.SelectedIndexChanged += AdminTabControl_SelectedIndexChanged;
             // 
@@ -227,7 +228,6 @@
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(129, 23);
             textBox4.TabIndex = 11;
-            textBox4.TextChanged += textBox4_TextChanged;
             // 
             // textBox3
             // 
@@ -235,7 +235,6 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(129, 23);
             textBox3.TabIndex = 10;
-            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // textBox2
             // 
@@ -305,7 +304,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(129, 23);
             textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 
@@ -338,7 +336,6 @@
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
-            listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
             // 
             // SocietyName
             // 
@@ -378,7 +375,7 @@
             memberManagement.Location = new Point(4, 24);
             memberManagement.Name = "memberManagement";
             memberManagement.Padding = new Padding(3);
-            memberManagement.Size = new Size(944, 481);
+            memberManagement.Size = new Size(1092, 481);
             memberManagement.TabIndex = 1;
             memberManagement.Text = "Member Management";
             memberManagement.UseVisualStyleBackColor = true;
@@ -391,7 +388,7 @@
             tabControl1.Location = new Point(3, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(938, 475);
+            tabControl1.Size = new Size(1086, 475);
             tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -606,6 +603,7 @@
             // tabPage2
             // 
             tabPage2.BackColor = SystemColors.ActiveCaption;
+            tabPage2.Controls.Add(refreshButton);
             tabPage2.Controls.Add(button5);
             tabPage2.Controls.Add(textBox10);
             tabPage2.Controls.Add(button4);
@@ -613,9 +611,18 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(930, 447);
+            tabPage2.Size = new Size(1078, 447);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Aprove Members";
+            // 
+            // refreshButton
+            // 
+            refreshButton.Location = new Point(503, 33);
+            refreshButton.Name = "refreshButton";
+            refreshButton.Size = new Size(121, 26);
+            refreshButton.TabIndex = 5;
+            refreshButton.Text = "Refresh";
+            refreshButton.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
@@ -646,47 +653,48 @@
             // 
             listView3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listView3.BackColor = SystemColors.Menu;
-            listView3.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader10, columnHeader11 });
+            listView3.Columns.AddRange(new ColumnHeader[] { timeStamp1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader10, columnHeader11 });
             listView3.FullRowSelect = true;
             listView3.Location = new Point(6, 94);
             listView3.Name = "listView3";
-            listView3.Size = new Size(918, 350);
+            listView3.Size = new Size(1066, 350);
             listView3.TabIndex = 1;
             listView3.UseCompatibleStateImageBehavior = false;
             listView3.View = View.Details;
             // 
-            // columnHeader1
+            // timeStamp1
             // 
-            columnHeader1.Text = "Name";
-            columnHeader1.Width = 100;
+            timeStamp1.Text = "Timestamp";
+            timeStamp1.Width = 100;
             // 
             // columnHeader2
             // 
-            columnHeader2.Text = "Email";
+            columnHeader2.Text = "Name";
             columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
-            columnHeader3.Text = "Department";
+            columnHeader3.Text = "Email";
             columnHeader3.Width = 100;
             // 
             // columnHeader4
             // 
-            columnHeader4.Text = "Role";
+            columnHeader4.Text = "Department";
             columnHeader4.Width = 100;
             // 
             // columnHeader5
             // 
-            columnHeader5.Text = "Message";
+            columnHeader5.Text = "Role";
             columnHeader5.Width = 300;
             // 
             // columnHeader10
             // 
-            columnHeader10.Text = "Phone";
+            columnHeader10.Text = "Message";
             columnHeader10.Width = 100;
             // 
             // columnHeader11
             // 
+            columnHeader11.DisplayIndex = 6;
             columnHeader11.Text = "Approve";
             columnHeader11.Width = 100;
             // 
@@ -694,10 +702,11 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(952, 509);
+            ClientSize = new Size(1100, 509);
             Controls.Add(AdminTabControl);
             Name = "AdminDashboard";
             Text = "Admin";
+            Load += AdminDashboard_Load;
             AdminTabControl.ResumeLayout(false);
             SocietyRegistration.ResumeLayout(false);
             SocietyRegistration.PerformLayout();
@@ -779,7 +788,7 @@
         private ColumnHeader columnHeader7;
         private ColumnHeader columnHeader8;
         private ListView listView3;
-        private ColumnHeader columnHeader1;
+        private ColumnHeader timeStamp1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
@@ -789,5 +798,6 @@
         private Button button5;
         private TextBox textBox10;
         private Button button4;
+        private Button refreshButton;
     }
 }
