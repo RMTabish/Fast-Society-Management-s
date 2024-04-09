@@ -195,20 +195,19 @@ namespace FASTSocietyManagementSystem
 
         private void SendInvitationEmail(string name, string email, string department, string role, string message)
         {
-            // Construct the email message
+           
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("myprofessionalemail1967@gmail.com");
             mail.To.Add(email);
             mail.Subject = "Invitation to join our society";
             mail.Body = $"Dear {name}+ {message}";
 
-            // Send the email (try-catch for error handling)
             try
             {
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-                smtpClient.Port = 587; // Gmail SMTP port
-                smtpClient.EnableSsl = true; // Enable SSL/TLS encryption
-                smtpClient.UseDefaultCredentials = false; // Don't use default credentials
+                smtpClient.Port = 587;
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new NetworkCredential("myprofessionalemail1967@gmail.com", "stanumsada1");
 
 
@@ -305,17 +304,17 @@ namespace FASTSocietyManagementSystem
             }
         }
 
-       
+
         public void PopulateListViewWithGoogleSheetData()
         {
-        
+
             if (credential == null)
             {
                 MessageBox.Show("Google Sheets authorization is required.", "Authorization Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-           
+
             string spreadsheetId = "1b2zh6soiGBYfkK9PrCYKN3ZmASV5NqCOmSJDoQLAVeE";
             string range = "Form Responses 1!A1:G"; // Adjust the range base
 
@@ -367,6 +366,180 @@ namespace FASTSocietyManagementSystem
             }
         }
 
+        //writing the announce event method where the admin after filling in the information send notification to every member email
+        private void clickAnnounceButton()
+        {
+            string eventName = textBox20.Text;
+            DateTime eventDateAndTime = dateTimePicker1.Value;
+            string eventLocation = textBox18.Text;
+            string eventOrganizer = textBox17.Text;
+            string eventGuests = textBox19.Text;
+
+           
+           /* foreach (var guest in GuestList.Items)
+            {
+                eventGuests += guest.ToString() + "; "; 
+            }
+
+            // Remove the trailing "; " from the string
+            eventGuests = eventGuests.TrimEnd(' ', ';');*/
+            DateTime eventRegisterationDeadline = dateTimePicker2.Value;
+            string eventDescription = textBox11.Text;
+
+            if (string.IsNullOrWhiteSpace(eventName) || string.IsNullOrWhiteSpace(eventLocation)
+                || string.IsNullOrWhiteSpace(eventOrganizer) || string.IsNullOrWhiteSpace(eventGuests)
+                || string.IsNullOrWhiteSpace(eventDescription)
+                )
+            {
+                MessageBox.Show("Please fill in all event details.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            //validate date
+            DateTime currentDate = dateTimePicker1.Value;
+            if (currentDate < DateTime.Now)
+            {
+                MessageBox.Show("Please select a date and time in the future.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+
+            DateTime registerDate = dateTimePicker2.Value;
+            if (registerDate < DateTime.Now)
+            {
+                MessageBox.Show("Please select a date and time in the future.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+
+            /*if (GuestList.Items.Count == 0)
+            {
+                MessageBox.Show("Please add guests to the list.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }*/
+
+            sendEmails(eventName, eventDateAndTime, eventLocation, eventDescription, eventOrganizer, eventGuests, eventRegisterationDeadline);
+
+
+
+
+
+
+
+
+            ListViewItem item = new ListViewItem(eventName);
+            item.SubItems.Add(eventDateAndTime.ToString()); // Assuming eventDateAndTime is of type DateTime
+            item.SubItems.Add(eventLocation);
+            item.SubItems.Add(eventOrganizer);
+            item.SubItems.Add(eventGuests);
+            item.SubItems.Add(eventRegisterationDeadline.ToString());
+            item.SubItems.Add(eventDescription);
+
+            // Add the ListViewItem to the ListView
+            listView4.Items.Add(item);
+
+
+        }
+
+        private void sendEmails(string eventName, DateTime eventDateAndTime, string eventLocation, string eventDescription, string eventOrganizer, string eventGuests,
+            DateTime eventRegisterationDeadline
+            )
+        {
+            List<string> emails = getEmails();
+
+
+
+            string subject = $"Event Announcement: {eventName}";
+            string body = $"Dear Member,\n\nWe are pleased to announce the upcoming event: {eventName}.\n\nEvent Details:\nDate&Time:{eventDateAndTime}\nLocation: {eventLocation}\nDescription: {eventDescription}\n\nPlease mark your calendar and join us for this event.\n\nRegards,\nSociety Management Team";
+
+
+            foreach (string email in emails)
+            {
+                try
+                {
+                    SendEmail(email, subject, body);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show($"Failed to send email to {email}. Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void SendEmail(string EmailToSend, string emailSubject, string emailBody)
+        {
+
+            try
+            {
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("myprofessionalemail1967@gmail.com");
+                mail.To.Add(EmailToSend);
+                mail.Subject = emailSubject;
+                mail.Body = emailBody;
+
+                // Configure the SMTP client
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                smtpClient.Port = 587;
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential("myprofessionalemail1967@gmail.com", "uwfv pnjw fdfx damr");
+
+                // Send the email
+                smtpClient.Send(mail);
+
+               
+              
+
+
+
+                mail.Dispose();
+                smtpClient.Dispose();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"Failed to send email to {EmailToSend}. Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            MessageBox.Show("Invitation sent successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        //i am validating the inputs
+        private List<string> getEmails()
+        {
+            string filePath = "emails.txt";
+
+            List<string> emails = new List<string>();
+
+            try
+            {
+
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+
+                        emails.Add(line);
+                    }
+                }
+
+
+                Console.WriteLine("Retrieved Emails:");
+                foreach (string email in emails)
+                {
+                    Console.WriteLine(email);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error reading file: {ex.Message}");
+            }
+
+            return emails;
+        }
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             // Call a method to fetch data from Google Sheets and populate listView3
@@ -412,6 +585,46 @@ namespace FASTSocietyManagementSystem
         private void textBox9_TextChanged(object sender, EventArgs e)
         {
             // Text changed event logic for textBox9
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void GuestList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+             clickAnnounceButton();
         }
     }
 }

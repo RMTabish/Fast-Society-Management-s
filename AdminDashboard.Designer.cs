@@ -100,6 +100,39 @@
             columnHeader5 = new ColumnHeader();
             columnHeader10 = new ColumnHeader();
             columnHeader11 = new ColumnHeader();
+            createEvent = new TabPage();
+            listView4 = new ListView();
+            columnHeader1 = new ColumnHeader();
+            columnHeader9 = new ColumnHeader();
+            columnHeader12 = new ColumnHeader();
+            columnHeader13 = new ColumnHeader();
+            columnHeader14 = new ColumnHeader();
+            columnHeader15 = new ColumnHeader();
+            columnHeader16 = new ColumnHeader();
+            columnHeader17 = new ColumnHeader();
+            panel4 = new Panel();
+            label19 = new Label();
+            dateTimePicker2 = new DateTimePicker();
+            label18 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            button6 = new Button();
+            textBox11 = new TextBox();
+            textBox17 = new TextBox();
+            textBox18 = new TextBox();
+            label8 = new Label();
+            label9 = new Label();
+            label15 = new Label();
+            label16 = new Label();
+            textBox20 = new TextBox();
+            label17 = new Label();
+            columnHeader18 = new ColumnHeader();
+            columnHeader19 = new ColumnHeader();
+            columnHeader20 = new ColumnHeader();
+            columnHeader21 = new ColumnHeader();
+            columnHeader22 = new ColumnHeader();
+            columnHeader23 = new ColumnHeader();
+            columnHeader24 = new ColumnHeader();
+            textBox19 = new TextBox();
             AdminTabControl.SuspendLayout();
             SocietyRegistration.SuspendLayout();
             panel1.SuspendLayout();
@@ -110,17 +143,20 @@
             panel2.SuspendLayout();
             panel3.SuspendLayout();
             tabPage2.SuspendLayout();
+            createEvent.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // AdminTabControl
             // 
             AdminTabControl.Controls.Add(SocietyRegistration);
             AdminTabControl.Controls.Add(memberManagement);
+            AdminTabControl.Controls.Add(createEvent);
             AdminTabControl.Dock = DockStyle.Fill;
             AdminTabControl.Location = new Point(0, 0);
             AdminTabControl.Name = "AdminTabControl";
             AdminTabControl.SelectedIndex = 0;
-            AdminTabControl.Size = new Size(1100, 509);
+            AdminTabControl.Size = new Size(1192, 592);
             AdminTabControl.TabIndex = 0;
             AdminTabControl.SelectedIndexChanged += AdminTabControl_SelectedIndexChanged;
             // 
@@ -135,7 +171,7 @@
             SocietyRegistration.Location = new Point(4, 24);
             SocietyRegistration.Name = "SocietyRegistration";
             SocietyRegistration.Padding = new Padding(3);
-            SocietyRegistration.Size = new Size(944, 481);
+            SocietyRegistration.Size = new Size(1184, 564);
             SocietyRegistration.TabIndex = 0;
             SocietyRegistration.Text = "Society Registration";
             // 
@@ -168,6 +204,7 @@
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.BackColor = SystemColors.ButtonHighlight;
             panel1.Controls.Add(button1AddSociety);
             panel1.Controls.Add(textBox7);
@@ -184,10 +221,9 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(label1);
-            panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(651, 3);
+            panel1.Location = new Point(891, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(290, 475);
+            panel1.Size = new Size(290, 558);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
@@ -328,11 +364,10 @@
             // 
             listView1.BackColor = SystemColors.Menu;
             listView1.Columns.AddRange(new ColumnHeader[] { SocietyName, PresidentId, MentorId, Department, Description, Email, Phone, Status });
-            listView1.Dock = DockStyle.Fill;
             listView1.FullRowSelect = true;
             listView1.Location = new Point(0, 0);
             listView1.Name = "listView1";
-            listView1.Size = new Size(645, 344);
+            listView1.Size = new Size(885, 344);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -375,7 +410,7 @@
             memberManagement.Location = new Point(4, 24);
             memberManagement.Name = "memberManagement";
             memberManagement.Padding = new Padding(3);
-            memberManagement.Size = new Size(1092, 481);
+            memberManagement.Size = new Size(1184, 564);
             memberManagement.TabIndex = 1;
             memberManagement.Text = "Member Management";
             memberManagement.UseVisualStyleBackColor = true;
@@ -388,7 +423,7 @@
             tabControl1.Location = new Point(3, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1086, 475);
+            tabControl1.Size = new Size(1178, 558);
             tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -402,7 +437,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(930, 447);
+            tabPage1.Size = new Size(1170, 530);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Invite Member";
             // 
@@ -448,9 +483,9 @@
             panel2.Controls.Add(textBox16);
             panel2.Controls.Add(label14);
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(615, 3);
+            panel2.Location = new Point(855, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(312, 441);
+            panel2.Size = new Size(312, 524);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
@@ -552,7 +587,7 @@
             panel3.Controls.Add(listView2);
             panel3.Location = new Point(3, 107);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1084, 718);
+            panel3.Size = new Size(1324, 801);
             panel3.TabIndex = 0;
             // 
             // listView2
@@ -563,7 +598,7 @@
             listView2.FullRowSelect = true;
             listView2.Location = new Point(0, 0);
             listView2.Name = "listView2";
-            listView2.Size = new Size(611, 614);
+            listView2.Size = new Size(851, 697);
             listView2.TabIndex = 0;
             listView2.UseCompatibleStateImageBehavior = false;
             listView2.View = View.Details;
@@ -611,7 +646,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1078, 447);
+            tabPage2.Size = new Size(1170, 530);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Aprove Members";
             // 
@@ -657,7 +692,7 @@
             listView3.FullRowSelect = true;
             listView3.Location = new Point(6, 94);
             listView3.Name = "listView3";
-            listView3.Size = new Size(1066, 350);
+            listView3.Size = new Size(1158, 433);
             listView3.TabIndex = 1;
             listView3.UseCompatibleStateImageBehavior = false;
             listView3.View = View.Details;
@@ -694,15 +729,275 @@
             // 
             // columnHeader11
             // 
-            columnHeader11.DisplayIndex = 6;
             columnHeader11.Text = "Approve";
             columnHeader11.Width = 100;
+            // 
+            // createEvent
+            // 
+            createEvent.Controls.Add(listView4);
+            createEvent.Controls.Add(panel4);
+            createEvent.Location = new Point(4, 24);
+            createEvent.Name = "createEvent";
+            createEvent.Padding = new Padding(3);
+            createEvent.Size = new Size(1184, 564);
+            createEvent.TabIndex = 2;
+            createEvent.Text = "Create Event";
+            createEvent.UseVisualStyleBackColor = true;
+            // 
+            // listView4
+            // 
+            listView4.BackColor = SystemColors.Menu;
+            listView4.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader9, columnHeader12, columnHeader13, columnHeader14, columnHeader15, columnHeader16, columnHeader17 });
+            listView4.Dock = DockStyle.Fill;
+            listView4.FullRowSelect = true;
+            listView4.Location = new Point(3, 3);
+            listView4.Name = "listView4";
+            listView4.Size = new Size(773, 558);
+            listView4.TabIndex = 3;
+            listView4.UseCompatibleStateImageBehavior = false;
+            listView4.View = View.Details;
+            listView4.SelectedIndexChanged += listView4_SelectedIndexChanged;
+            // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "Event Name";
+            columnHeader1.Width = 100;
+            // 
+            // columnHeader9
+            // 
+            columnHeader9.Text = "Date and Time";
+            columnHeader9.Width = 100;
+            // 
+            // columnHeader12
+            // 
+            columnHeader12.Text = "Location";
+            columnHeader12.Width = 100;
+            // 
+            // columnHeader13
+            // 
+            columnHeader13.Text = "Organizer";
+            columnHeader13.Width = 100;
+            // 
+            // columnHeader14
+            // 
+            columnHeader14.Text = "VIP Guests";
+            columnHeader14.Width = 100;
+            // 
+            // columnHeader15
+            // 
+            columnHeader15.Text = "Registeration deadline";
+            columnHeader15.Width = 100;
+            // 
+            // columnHeader16
+            // 
+            columnHeader16.Text = "Description";
+            columnHeader16.Width = 100;
+            // 
+            // columnHeader17
+            // 
+            columnHeader17.Text = "Status";
+            columnHeader17.Width = 100;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = SystemColors.ButtonHighlight;
+            panel4.Controls.Add(textBox19);
+            panel4.Controls.Add(label19);
+            panel4.Controls.Add(dateTimePicker2);
+            panel4.Controls.Add(label18);
+            panel4.Controls.Add(dateTimePicker1);
+            panel4.Controls.Add(button6);
+            panel4.Controls.Add(textBox11);
+            panel4.Controls.Add(textBox17);
+            panel4.Controls.Add(textBox18);
+            panel4.Controls.Add(label8);
+            panel4.Controls.Add(label9);
+            panel4.Controls.Add(label15);
+            panel4.Controls.Add(label16);
+            panel4.Controls.Add(textBox20);
+            panel4.Controls.Add(label17);
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(776, 3);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(405, 558);
+            panel4.TabIndex = 2;
+            panel4.Paint += panel4_Paint;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(38, 344);
+            label19.Name = "label19";
+            label19.Size = new Size(119, 15);
+            label19.TabIndex = 21;
+            label19.Text = "Registration Deadline";
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.Location = new Point(174, 344);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(203, 23);
+            dateTimePicker2.TabIndex = 20;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(38, 265);
+            label18.Name = "label18";
+            label18.Size = new Size(62, 15);
+            label18.TabIndex = 17;
+            label18.Text = "VIP Guests";
+            label18.Click += label18_Click;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(174, 104);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(203, 23);
+            dateTimePicker1.TabIndex = 16;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(200, 499);
+            button6.Name = "button6";
+            button6.Size = new Size(108, 27);
+            button6.TabIndex = 15;
+            button6.Text = "Announce";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
+            // textBox11
+            // 
+            textBox11.Location = new Point(174, 410);
+            textBox11.Multiline = true;
+            textBox11.Name = "textBox11";
+            textBox11.Size = new Size(203, 59);
+            textBox11.TabIndex = 12;
+            // 
+            // textBox17
+            // 
+            textBox17.Location = new Point(174, 210);
+            textBox17.Name = "textBox17";
+            textBox17.Size = new Size(203, 23);
+            textBox17.TabIndex = 11;
+            // 
+            // textBox18
+            // 
+            textBox18.Location = new Point(174, 150);
+            textBox18.Name = "textBox18";
+            textBox18.Size = new Size(203, 23);
+            textBox18.TabIndex = 10;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(38, 104);
+            label8.Name = "label8";
+            label8.Size = new Size(83, 15);
+            label8.TabIndex = 5;
+            label8.Text = "Date and Time";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(38, 150);
+            label9.Name = "label9";
+            label9.Size = new Size(53, 15);
+            label9.TabIndex = 4;
+            label9.Text = "Location";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(38, 410);
+            label15.Name = "label15";
+            label15.Size = new Size(67, 15);
+            label15.TabIndex = 3;
+            label15.Text = "Description";
+            label15.Click += label15_Click;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(38, 210);
+            label16.Name = "label16";
+            label16.Size = new Size(58, 15);
+            label16.TabIndex = 2;
+            label16.Text = "Organizer";
+            // 
+            // textBox20
+            // 
+            textBox20.Location = new Point(174, 49);
+            textBox20.Name = "textBox20";
+            textBox20.Size = new Size(203, 23);
+            textBox20.TabIndex = 1;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(38, 49);
+            label17.Name = "label17";
+            label17.Size = new Size(71, 15);
+            label17.TabIndex = 0;
+            label17.Text = "Event Name";
+            label17.Click += label17_Click;
+            // 
+            // columnHeader18
+            // 
+            columnHeader18.DisplayIndex = 0;
+            columnHeader18.Text = "Timestamp";
+            columnHeader18.Width = 100;
+            // 
+            // columnHeader19
+            // 
+            columnHeader19.DisplayIndex = 1;
+            columnHeader19.Text = "Name";
+            columnHeader19.Width = 100;
+            // 
+            // columnHeader20
+            // 
+            columnHeader20.DisplayIndex = 2;
+            columnHeader20.Text = "Email";
+            columnHeader20.Width = 100;
+            // 
+            // columnHeader21
+            // 
+            columnHeader21.DisplayIndex = 3;
+            columnHeader21.Text = "Department";
+            columnHeader21.Width = 100;
+            // 
+            // columnHeader22
+            // 
+            columnHeader22.DisplayIndex = 4;
+            columnHeader22.Text = "Role";
+            columnHeader22.Width = 300;
+            // 
+            // columnHeader23
+            // 
+            columnHeader23.DisplayIndex = 5;
+            columnHeader23.Text = "Message";
+            columnHeader23.Width = 100;
+            // 
+            // columnHeader24
+            // 
+            columnHeader24.DisplayIndex = 6;
+            columnHeader24.Text = "Approve";
+            columnHeader24.Width = 100;
+            // 
+            // textBox19
+            // 
+            textBox19.Location = new Point(174, 252);
+            textBox19.Multiline = true;
+            textBox19.Name = "textBox19";
+            textBox19.Size = new Size(203, 59);
+            textBox19.TabIndex = 22;
             // 
             // AdminDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 509);
+            ClientSize = new Size(1192, 592);
             Controls.Add(AdminTabControl);
             Name = "AdminDashboard";
             Text = "Admin";
@@ -722,6 +1017,9 @@
             panel3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            createEvent.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -799,5 +1097,38 @@
         private TextBox textBox10;
         private Button button4;
         private Button refreshButton;
+        private TabPage createEvent;
+        private Panel panel4;
+        private Button button6;
+        private TextBox textBox11;
+        private TextBox textBox17;
+        private TextBox textBox18;
+        private Label label8;
+        private Label label9;
+        private Label label15;
+        private Label label16;
+        private TextBox textBox20;
+        private Label label17;
+        private ColumnHeader columnHeader18;
+        private ColumnHeader columnHeader19;
+        private ColumnHeader columnHeader20;
+        private ColumnHeader columnHeader21;
+        private ColumnHeader columnHeader22;
+        private ColumnHeader columnHeader23;
+        private ColumnHeader columnHeader24;
+        private ListView listView4;
+        private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader9;
+        private ColumnHeader columnHeader12;
+        private ColumnHeader columnHeader13;
+        private ColumnHeader columnHeader14;
+        private ColumnHeader columnHeader15;
+        private ColumnHeader columnHeader16;
+        private ColumnHeader columnHeader17;
+        private DateTimePicker dateTimePicker1;
+        private Label label18;
+        private Label label19;
+        private DateTimePicker dateTimePicker2;
+        private TextBox textBox19;
     }
 }
