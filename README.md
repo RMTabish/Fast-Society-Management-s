@@ -87,14 +87,14 @@ To install and run the **FAST Societies Management System**, follow these steps:
 4. **Run the Application**:  
    After building the project, run the application and follow the on-screen instructions to begin managing societies.
 
-   ## Class Diagram
+## Class Diagram
    
 ![image](https://github.com/user-attachments/assets/c87f2698-0bf1-4cd8-a326-9631f143e0be)
 
-   ## Architecture
+## Architecture
    
 ![image](https://github.com/user-attachments/assets/ba64a560-3eb2-474e-9249-bf156ac172e3)
 
-   ## Use-Case Diagram 
+## Use-Case Diagram 
 
 ![image](https://github.com/user-attachments/assets/eb4dba9a-a1ff-4a1c-9122-aac0df63bf64)
