@@ -95,6 +95,6 @@ To install and run the **FAST Societies Management System**, follow these steps:
    
 ![image](https://github.com/user-attachments/assets/ba64a560-3eb2-474e-9249-bf156ac172e3)
 
+   ## Use-Case Diagram 
 
-##UseCase Diagram
 ![image](https://github.com/user-attachments/assets/eb4dba9a-a1ff-4a1c-9122-aac0df63bf64)
